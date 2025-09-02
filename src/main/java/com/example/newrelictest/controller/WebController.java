@@ -104,6 +104,22 @@ public class WebController {
         logger.error("PRIVACY VIOLATION - Personal data exposed in logs: name:{}, phone:{}, email:{}", 
                     name, phone, email);
         
+        // 마이크로서비스 API 호출 시뮬레이션 로그 (개인정보 포함)
+        String customerNo = String.format("%010d", Math.abs(name.hashCode() % 10000000));
+        String encodedEmail = java.net.URLEncoder.encode(email, java.nio.charset.StandardCharsets.UTF_8);
+        
+        logger.error("[GET] to [https://microservice.lgcomus-stg.lge.com/myaccount/process/v1/gsfs-call/sync-registered-product?customerNo={}&customerEmail={}&store=us] [MyLGProcessFeignClient#syncRegisteredProduct(String,String,String)]: {{\"exception\":\"NoSuchElementException\",\"errorCode\":\"MUL20-PRO-00\",\"message\":\"Something went wrong\",\"timestamp\":\"{}\",\"status\":500}}\n\tat feign.FeignException.clientErrorStatus(FeignException.java:243)\n\tat feign.codec.ErrorDecoder$Default.decode(ErrorDecoder.java:92)\n\tat feign.InvocationHandlerFactory$MethodHandler.invoke(MethodHandler.java:299)", 
+                    customerNo, encodedEmail, java.time.Instant.now());
+        
+        logger.warn("[POST] to [https://api-gateway.lgcomus-stg.lge.com/user/profile/update] with payload: {{\"name\":\"{}\",\"phone\":\"{}\",\"email\":\"{}\",\"customerNo\":\"{}\"}} - Response: {{\"status\":\"failed\",\"error\":\"VALIDATION_ERROR\",\"details\":\"Invalid phone format\"}} at com.lg.user.ProfileServiceImpl.updateProfile(ProfileServiceImpl.java:156)", 
+                    name, phone, email, customerNo);
+        
+        logger.info("External API call initiated: [MyLGProcessFeignClient] attempting to sync product data for customer {} with email {} and phone {}", 
+                   customerNo, email, phone);
+        
+        logger.error("Database connection failed while processing user data: name='{}', email='{}', phone='{}' - SQLException: Connection timeout after 30000ms\n\tat com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:836)\n\tat com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:456)", 
+                    name, email, phone);
+        
         // 추가적인 로그 메시지들
         logger.info("Processing user data submission with details: {name: '{}', phone: '{}', email: '{}'}", 
                    name, phone, email);

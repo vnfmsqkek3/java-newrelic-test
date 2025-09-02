@@ -64,7 +64,6 @@ public class UserController {
     
     @GetMapping("/health")
     public ResponseEntity<String> health() {
-        logger.info("Health check endpoint called");
         return ResponseEntity.ok("Application is running");
     }
 }
