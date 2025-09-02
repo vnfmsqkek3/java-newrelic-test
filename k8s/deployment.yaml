@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: newrelic-test-app
+  labels:
+    app: newrelic-test-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: newrelic-test-app
+  template:
+    metadata:
+      labels:
+        app: newrelic-test-app
+    spec:
+      containers:
+      - name: newrelic-test-app
+        image: newrelic-test-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NEW_RELIC_LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: newrelic-secret
+              key: license-key
+        - name: NEW_RELIC_APP_NAME
+          value: "Java NewRelic Test Application (K8s)"
+        - name: JAVA_OPTS
+          value: "-javaagent:/app/newrelic/newrelic.jar -Xms512m -Xmx1024m"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/users/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /api/users/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10

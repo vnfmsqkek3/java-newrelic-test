@@ -1,0 +1,4 @@
+- java로 애플리케이션을 만들어야함.
+- 애플리케이션에 로그로, message 안에 phone, email, password, 와 같은 개인정보들이 들어가있어야함. 
+- newrelic agent 로 newrelic에 apm 로그를 전달 할 수 있어야함.
+- 최종적으로 java 애플리케이션은 쿠버네티스 위에 올라갈 수 있어야함.

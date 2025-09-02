@@ -1,0 +1,60 @@
+common: &default_settings
+  license_key: '${NEW_RELIC_LICENSE_KEY}'
+  app_name: 'Java NewRelic Test Application'
+  
+  agent_enabled: true
+  enable_auto_app_naming: false
+  enable_auto_transaction_naming: true
+  
+  log_level: info
+  audit_mode: false
+  log_file_count: 1
+  log_limit_in_kbytes: 0
+  log_daily: false
+  
+  high_security: false
+  proxy_host: ''
+  proxy_port: ''
+  proxy_user: ''
+  proxy_password: ''
+  
+  capture_params: true
+  ignored_params: ''
+  
+  error_collector:
+    enabled: true
+    capture_source: true
+    ignore_errors: ''
+    ignore_classes: ''
+    
+  transaction_tracer:
+    enabled: true
+    transaction_threshold: apdex_f
+    record_sql: raw
+    log_sql: false
+    stack_trace_threshold: 0.5
+    explain_enabled: true
+    explain_threshold: 0.5
+    
+  cross_application_tracer:
+    enabled: true
+    
+  thread_profiler:
+    enabled: true
+    
+  browser_monitoring:
+    auto_instrument: true
+    
+production:
+  <<: *default_settings
+  app_name: 'Java NewRelic Test Application (Production)'
+  
+development:
+  <<: *default_settings
+  app_name: 'Java NewRelic Test Application (Development)'
+  log_level: finest
+  
+test:
+  <<: *default_settings
+  app_name: 'Java NewRelic Test Application (Test)'
+  agent_enabled: false
