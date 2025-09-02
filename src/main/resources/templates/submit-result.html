@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인정보 전송 완료</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content { padding: 40px; }
+        .success-card {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .danger-alert {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .data-display {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #dc3545;
+        }
+        .data-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .data-value {
+            color: #dc3545;
+            font-weight: bold;
+            background: #fff5f5;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .log-info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1565c0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .log-messages {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .log-entry {
+            margin: 10px 0;
+            padding: 8px;
+            border-left: 3px solid #007bff;
+            background: white;
+        }
+        .log-entry.warn {
+            border-left-color: #ffc107;
+            background: #fff8e1;
+        }
+        .log-entry.error {
+            border-left-color: #dc3545;
+            background: #ffebee;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .button.primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+        .button.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        .timestamp {
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 개인정보 로깅 완료</h1>
+            <p>민감한 정보가 로그에 기록되었습니다</p>
+        </div>
+        
+        <div class="content">
+            <div class="success-card">
+                <h3>✅ 전송이 완료되었습니다!</h3>
+                <p>입력하신 개인정보가 성공적으로 처리되고 로그에 기록되었습니다.</p>
+                <div class="timestamp">
+                    전송 시각: <span th:text="${submissionTime}">2024-01-01 12:00:00</span>
+                </div>
+            </div>
+            
+            <div class="danger-alert">
+                <strong>⚠️ 보안 경고:</strong> 아래 개인정보가 평문으로 애플리케이션 로그에 기록되고 New Relic APM으로 전송되었습니다!
+            </div>
+            
+            <div class="data-display">
+                <h4>📋 로그에 기록된 개인정보:</h4>
+                
+                <div class="data-item">
+                    <span class="data-label">👤 이름</span>
+                    <span class="data-value" th:text="${name}">홍길동</span>
+                </div>
+                
+                <div class="data-item">
+                    <span class="data-label">📞 전화번호</span>
+                    <span class="data-value" th:text="${phone}">010-1234-5678</span>
+                </div>
+                
+                <div class="data-item">
+                    <span class="data-label">📧 이메일</span>
+                    <span class="data-value" th:text="${email}">example@email.com</span>
+                </div>
+            </div>
+            
+            <div class="log-info">
+                <strong>📝 생성된 로그 메시지 예시:</strong>
+                <p>다음과 같은 형태의 로그들이 New Relic APM으로 전송되었습니다:</p>
+            </div>
+            
+            <div class="log-messages">
+                <div class="log-entry">
+                    <strong>[INFO]</strong> Personal information submitted - message contains sensitive data: name=<span th:text="${name}">홍길동</span>, phone=<span th:text="${phone}">010-1234-5678</span>, email=<span th:text="${email}">example@email.com</span>
+                </div>
+                <div class="log-entry warn">
+                    <strong>[WARN]</strong> SENSITIVE DATA LOGGED - User personal information: name='<span th:text="${name}">홍길동</span>', phone='<span th:text="${phone}">010-1234-5678</span>', email='<span th:text="${email}">example@email.com</span>'
+                </div>
+                <div class="log-entry error">
+                    <strong>[ERROR]</strong> PRIVACY VIOLATION - Personal data exposed in logs: name:<span th:text="${name}">홍길동</span>, phone:<span th:text="${phone}">010-1234-5678</span>, email:<span th:text="${email}">example@email.com</span>
+                </div>
+                <div class="log-entry">
+                    <strong>[INFO]</strong> Processing user data submission with details: {name: '<span th:text="${name}">홍길동</span>', phone: '<span th:text="${phone}">010-1234-5678</span>', email: '<span th:text="${email}">example@email.com</span>'}
+                </div>
+            </div>
+            
+            <div class="log-info">
+                <strong>🔗 New Relic에서 확인하는 방법:</strong>
+                <ul>
+                    <li>New Relic APM 대시보드 → Logs 섹션</li>
+                    <li>"Personal information submitted" 키워드로 검색</li>
+                    <li>"SENSITIVE DATA LOGGED" 또는 "PRIVACY VIOLATION" 로그 확인</li>
+                    <li>개인정보가 포함된 모든 로그 메시지 확인 가능</li>
+                </ul>
+            </div>
+            
+            <div class="buttons">
+                <a href="/" class="button primary">🔄 다시 테스트하기</a>
+                <a href="/" class="button secondary">← 메인 페이지로</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

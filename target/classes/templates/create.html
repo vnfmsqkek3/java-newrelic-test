@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>새 사용자 생성</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+            padding: 30px;
+            text-align: center;
+        }
+        .content { padding: 40px; }
+        .form-group {
+            margin: 20px 0;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #495057;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+        .form-input.sensitive {
+            border-color: #dc3545;
+            background: #fff5f5;
+        }
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255,193,7,0.3);
+        }
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            color: #6c757d;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-button:hover {
+            color: #495057;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1565c0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>➕ 새 사용자 생성</h1>
+            <p>개인정보 로깅 테스트용 계정 생성</p>
+        </div>
+        
+        <div class="content">
+            <div class="warning">
+                <strong>⚠️ 주의:</strong> 입력한 모든 개인정보(이름, 전화번호, 이메일, 비밀번호)가 평문으로 로그에 기록되며 New Relic APM으로 전송됩니다.
+            </div>
+            
+            <div class="info-box">
+                <strong>📋 입력 가이드:</strong>
+                <p>테스트 목적으로 실제 개인정보 대신 가상의 정보를 입력하세요. 
+                모든 필드는 필수 입력 사항입니다.</p>
+            </div>
+            
+            <form method="post" action="/create">
+                <div class="form-group">
+                    <label for="name" class="form-label">👤 이름</label>
+                    <input type="text" 
+                           id="name" 
+                           name="name" 
+                           class="form-input" 
+                           placeholder="홍길동"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone" class="form-label">📞 전화번호 (민감정보)</label>
+                    <input type="tel" 
+                           id="phone" 
+                           name="phone" 
+                           class="form-input sensitive" 
+                           placeholder="010-1234-5678"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">📧 이메일 주소 (민감정보)</label>
+                    <input type="email" 
+                           id="email" 
+                           name="email" 
+                           class="form-input sensitive" 
+                           placeholder="example@email.com"
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" class="form-label">🔐 비밀번호 (민감정보)</label>
+                    <input type="password" 
+                           id="password" 
+                           name="password" 
+                           class="form-input sensitive" 
+                           placeholder="비밀번호를 입력하세요"
+                           required>
+                </div>
+                
+                <button type="submit" class="submit-button">
+                    🚀 사용자 생성 (로그 기록)
+                </button>
+            </form>
+            
+            <a href="/" class="back-button">← 메인 페이지로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>

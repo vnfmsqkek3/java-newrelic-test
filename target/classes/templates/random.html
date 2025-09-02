@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤 사용자 정보</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content { padding: 30px; }
+        .user-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            border-left: 5px solid #28a745;
+        }
+        .user-field {
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        .user-field.sensitive {
+            background: #ffebee;
+            border-color: #ffcdd2;
+        }
+        .field-label {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        .field-value {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            color: #212529;
+        }
+        .sensitive .field-value {
+            color: #c62828;
+            font-weight: bold;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .button.primary {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+        }
+        .button.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎲 랜덤 사용자 조회</h1>
+            <p>무작위로 선택된 사용자의 개인정보</p>
+        </div>
+        
+        <div class="content">
+            <div class="warning">
+                <strong>⚠️ 주의:</strong> 이 정보는 New Relic APM 로그로 전송되었습니다.
+            </div>
+            
+            <div class="user-card">
+                <div class="user-field">
+                    <div class="field-label">👤 이름</div>
+                    <div class="field-value" th:text="${user.name}">사용자명</div>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <div class="field-label">📞 전화번호</div>
+                    <div class="field-value" th:text="${user.phone}">전화번호</div>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <div class="field-label">📧 이메일</div>
+                    <div class="field-value" th:text="${user.email}">이메일</div>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <div class="field-label">🔐 비밀번호</div>
+                    <div class="field-value" th:text="${user.password}">비밀번호</div>
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <a href="/random" class="button primary">🔄 다른 사용자 보기</a>
+                <a href="/" class="button secondary">← 메인으로</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 결과</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content { padding: 40px; }
+        .result-card {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .log-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .credential-display {
+            background: #f8f9fa;
+            border: 2px solid #dc3545;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+        .credential-label {
+            font-weight: bold;
+            color: #dc3545;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .button.primary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+        .button.secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ 로그인 처리 완료</h1>
+            <p>개인정보 로깅 테스트 결과</p>
+        </div>
+        
+        <div class="content">
+            <div class="result-card">
+                <h3>🎉 로그인 요청이 성공적으로 처리되었습니다!</h3>
+                <p th:text="${loginResult}">로그인 처리 완료</p>
+            </div>
+            
+            <div class="log-info">
+                <strong>📝 로그 기록 정보:</strong>
+                <p>다음 개인정보가 애플리케이션 로그에 기록되고 New Relic APM으로 전송되었습니다:</p>
+            </div>
+            
+            <div class="credential-display">
+                <div class="credential-label">🔍 로그에 기록된 민감한 정보:</div>
+                <br>
+                <div><strong>이메일:</strong> <span th:text="${email}">이메일 주소</span></div>
+                <div><strong>비밀번호:</strong> [평문으로 로그에 기록됨]</div>
+                <div><strong>타임스탬프:</strong> 현재 시각</div>
+                <div><strong>IP 주소:</strong> 클라이언트 IP</div>
+            </div>
+            
+            <div class="log-info">
+                <strong>🔗 New Relic에서 확인하세요:</strong>
+                <p>New Relic APM 대시보드의 로그 섹션에서 방금 생성된 로그를 확인할 수 있습니다. 
+                'Web login form submitted with credentials' 메시지를 찾아보세요.</p>
+            </div>
+            
+            <div class="buttons">
+                <a href="/login" class="button primary">🔄 다시 로그인 테스트</a>
+                <a href="/" class="button secondary">← 메인 페이지로</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

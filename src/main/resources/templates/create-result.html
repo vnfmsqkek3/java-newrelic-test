@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 생성 결과</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0; 
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 700px; 
+            margin: 0 auto; 
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .content { padding: 40px; }
+        .result-card {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .user-info {
+            background: #f8f9fa;
+            border: 2px solid #dc3545;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+        }
+        .user-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .user-field.sensitive {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        .field-label {
+            font-weight: bold;
+            color: #495057;
+        }
+        .field-value {
+            font-family: 'Courier New', monospace;
+            color: #212529;
+        }
+        .sensitive .field-value {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        .log-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .log-details {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            color: #1565c0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 5px 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .button.primary {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            color: #212529;
+        }
+        .button.secondary {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+        .button.tertiary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            color: white;
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            color: inherit;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ 사용자 생성 완료</h1>
+            <p>개인정보 로깅 및 New Relic 전송 완료</p>
+        </div>
+        
+        <div class="content">
+            <div class="result-card">
+                <h3>🎉 새로운 사용자가 성공적으로 생성되었습니다!</h3>
+                <p th:text="${createResult}">사용자 생성 완료</p>
+            </div>
+            
+            <div class="log-warning">
+                <strong>📝 로그 기록 알림:</strong>
+                <p>아래 모든 개인정보가 애플리케이션 로그에 평문으로 기록되고 New Relic APM으로 전송되었습니다.</p>
+            </div>
+            
+            <div class="user-info">
+                <h4>🔍 로그에 기록된 사용자 정보:</h4>
+                
+                <div class="user-field">
+                    <span class="field-label">👤 이름</span>
+                    <span class="field-value" th:text="${user.name}">사용자명</span>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <span class="field-label">📞 전화번호 (민감정보)</span>
+                    <span class="field-value" th:text="${user.phone}">전화번호</span>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <span class="field-label">📧 이메일 (민감정보)</span>
+                    <span class="field-value" th:text="${user.email}">이메일</span>
+                </div>
+                
+                <div class="user-field sensitive">
+                    <span class="field-label">🔐 비밀번호 (민감정보)</span>
+                    <span class="field-value" th:text="${user.password}">비밀번호</span>
+                </div>
+            </div>
+            
+            <div class="log-details">
+                <strong>🔗 New Relic 확인 방법:</strong>
+                <p>New Relic APM 대시보드에서 다음 로그 메시지들을 찾아보세요:</p>
+                <ul>
+                    <li>'Web create user form submitted with personal data' - 폼 제출 로그</li>
+                    <li>'Creating new user with personal information' - 사용자 생성 로그</li>
+                    <li>모든 개인정보가 포함된 상세 로그 메시지</li>
+                </ul>
+            </div>
+            
+            <div class="buttons">
+                <a href="/create" class="button primary">➕ 다른 사용자 생성</a>
+                <a href="/users" class="button secondary">👥 전체 사용자 보기</a>
+                <a href="/" class="button tertiary">← 메인 페이지로</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

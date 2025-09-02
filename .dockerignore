@@ -1,0 +1,41 @@
+# Build artifacts
+target/
+*.jar
+*.war
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+*.md
+
+# Logs
+*.log
+
+# Test files
+src/test/
+
+# Maven wrapper
+.mvn/
+mvnw
+mvnw.cmd
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Kubernetes files
+k8s/
